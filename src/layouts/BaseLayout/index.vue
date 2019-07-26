@@ -1,37 +1,84 @@
 <template>
-  <div class="layout">
+  <Layout>
     <Sider
-      :style="{ position: 'fixed', height: '100vh', left: 0, overflow: 'auto' }"
+      class="layout-sider-menu"
+      hide-trigger
+      collapsible
+      :collapsed-width="78"
+      v-model="isCollapsed"
+      breakpoint="md"
     >
-      <SiderMenuVue></SiderMenuVue>
+      <LogoVue />
+      <!-- <SiderMenuVue /> -->
     </Sider>
-    <Layout :style="{ marginLeft: '200px' }">
-      <Header>
-        <HeaderVue></HeaderVue>
+    <Layout>
+      <Header class="layout-header-bar">
+        <Icon
+          class="sider-menu-trigger"
+          :type="isCollapsed ? 'md-menu' : 'md-return-left'"
+          @click="handleSiderMenuTrigger"
+        />
+        <HeaderVue />
       </Header>
-      <Content>
-        <router-view></router-view>
+      <Content class="layout-content">
+        <router-view />
       </Content>
-      <Footer>
-        <FooterVue></FooterVue>
+      <Footer class="layout-footer-bar">
+        <FooterVue />
       </Footer>
     </Layout>
-  </div>
+    <SettingDrawerVue />
+  </Layout>
 </template>
 
 <script>
-import HeaderVue from './Header.vue';
-import SiderMenuVue from './SiderMenu.vue';
-import FooterVue from './Footer.vue';
+import HeaderVue from './Header.vue'
+import LogoVue from './Logo.vue'
+import FooterVue from './Footer.vue'
+import SettingDrawerVue from '@/components/SettingDrawer.vue'
+// import SiderMenuVue from './SiderMenu.vue'
 
 export default {
-  props: {},
-  components: { HeaderVue, SiderMenuVue, FooterVue },
-};
+  components: { HeaderVue, LogoVue, FooterVue, SettingDrawerVue },
+  data() {
+    return {
+      isCollapsed: false,
+    }
+  },
+  methods: {
+    handleSiderMenuTrigger() {
+      this.isCollapsed = !this.isCollapsed
+    },
+  },
+}
 </script>
 
-<style>
-.layout {
-  color: red;
+<style lang="scss" scoped>
+.layout-sider-menu {
+  min-height: 100vh;
+}
+.layout-header-bar {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  box-shadow: 0px 2px 3px #ddd;
+  background-color: white;
+}
+.layout-footer-bar {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 64px;
+  box-shadow: 0px -1px 2px #ddd;
+  background-color: white;
+}
+.sider-menu-trigger {
+  height: 64px;
+  line-height: 64px;
+  padding: 0 20px;
+  font-size: 35px;
+  &:hover {
+    background-color: #eee;
+  }
 }
 </style>

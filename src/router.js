@@ -1,8 +1,8 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import nprogress from 'nprogress';
-import 'nprogress/nprogress.css';
-Vue.use(Router);
+import Vue from 'vue'
+import Router from 'vue-router'
+import nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
@@ -58,16 +58,16 @@ const router = new Router({
         import(/* webpackChunkName: "layout" */ './views/404.vue'),
     },
   ],
-});
+})
 
 router.beforeEach((to, from, next) => {
   if (to.path != from.path) {
-    nprogress.start();
+    nprogress.start()
   }
-  next();
-});
+  next()
+})
 router.afterEach(() => {
-  nprogress.done();
-});
+  nprogress.done()
+})
 
-export default router;
+export default router
