@@ -1,0 +1,106 @@
+@import './color';
+
+$themeList: (
+  light: (
+    bg: $theme-light,
+    color: #666,
+    itemHoverBg: hsla(0, 0%, 0%, 0.1),
+    itemHoverColor: #666,
+    activeItemBg: hsla(0, 0%, 0%, 0.7),
+    activeItemColor: #fff,
+  ),
+  yellow: (
+    bg: $theme-yellow,
+    color: #666,
+    itemHoverBg: hsla(0, 0%, 0%, 0.1),
+    itemHoverColor: #666,
+    activeItemBg: hsla(0, 0%, 0%, 0.5),
+    activeItemColor: #fff,
+  ),
+  dark: (
+    bg: $theme-dark,
+    color: #fff,
+    itemHoverBg: hsla(0, 0%, 100%, 0.2),
+    itemHoverColor: #fff,
+    activeItemBg: hsla(0, 0%, 100%, 0.5),
+    activeItemColor: #fff,
+  ),
+  green: (
+    bg: $theme-green,
+    color: #fff,
+    itemHoverBg: hsla(0, 0%, 100%, 0.2),
+    itemHoverColor: #fff,
+    activeItemBg: hsla(0, 0%, 100%, 0.8),
+    activeItemColor: #666,
+  ),
+  red: (
+    bg: $theme-red,
+    color: #fff,
+    itemHoverBg: hsla(0, 0%, 100%, 0.2),
+    itemHoverColor: #fff,
+    activeItemBg: hsla(0, 0%, 100%, 0.8),
+    activeItemColor: #666,
+  ),
+  blue: (
+    bg: $theme-blue,
+    color: #fff,
+    itemHoverBg: hsla(0, 0%, 100%, 0.2),
+    itemHoverColor: #fff,
+    activeItemBg: hsla(0, 0%, 100%, 0.8),
+    activeItemColor: #666,
+  ),
+);
+
+@each $name, $map in $themeList {
+  .#{'theme-' + $name + '-element'} {
+    background-color: map-get($map, bg) !important;
+    color: map-get($map, color) !important;
+  }
+  .#{'theme-' + $name} {
+    .ivu-layout-sider {
+      background-color: map-get($map, bg);
+      color: map-get($map, color);
+    }
+    .ivu-menu {
+      background-color: map-get($map, bg);
+      color: map-get($map, color);
+      &:after {
+        background: transparent;
+        margin-right: -1px;
+      }
+
+      .ivu-menu-submenu-title:hover,
+      .ivu-menu-item:hover {
+        background-color: map-get($map, itemHoverBg);
+        color: map-get($map, itemHoverColor);
+      }
+
+      .ivu-menu-item-active:not(.ivu-menu-submenu) {
+        background-color: map-get($map, activeItemBg);
+        color: map-get($map, activeItemColor);
+        &:after {
+          @if $name == light {
+            background: map-get($map, activeItemBg);
+          } @else {
+            background: map-get($map, bg);
+          }
+          margin-right: -1px;
+          opacity: 0.8;
+        }
+      }
+    }
+    .drawer-container {
+      .ivu-drawer-close,
+      .drawer-trigger {
+        border-right: none;
+        background-color: map-get($map, bg);
+        & > i {
+          color: map-get($map, color);
+          &:hover {
+            color: map-get($map, color);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,13 @@
 <template>
-  <div>Header</div>
+  <div class="header-container">Header</div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
-<style></style>
+<style scoped>
+.header-container {
+  width: 100%;
+}
+</style>
