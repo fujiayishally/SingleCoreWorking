@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { hasAuthority } from '@/utils/authority'
+
 export default {
   props: {
     isCollapsed: {
@@ -42,9 +44,6 @@ export default {
     this.activeNamesMap = {}
     const path = this.$route.path
     const menuList = this.getMenuList(this.$router.options.routes)
-    console.log(this)
-    console.log(this.openNamesMap)
-    console.log(this.activeNamesMap)
     return {
       menuList,
       openNames: this.openNamesMap[path],
@@ -56,8 +55,12 @@ export default {
       const menuList = []
       routes.forEach(route => {
         if (route.hideInMenu) return
-
-        // debugger
+        if (
+          route.meta &&
+          route.meta.authority &&
+          !hasAuthority(route.meta.authority)
+        )
+          return
 
         this.openNamesMap[route.path] = parentNames
         this.activeNamesMap[route.path] = activeName || route.path
@@ -139,35 +142,4 @@ export default {
     transition-delay: 0s;
   }
 }
-// .menu-icon {
-//   transition: all 0.3s;
-// }
-// .rotate-icon {
-//   transform: rotate(-90deg);
-// }
-// .menu-item span {
-//   display: inline-block;
-//   width: 69px;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-//   vertical-align: bottom;
-//   transition: width 0.2s ease 0.2s;
-// }
-// .menu-item i {
-//   transform: translateX(0px);
-//   transition: font-size 0.2s ease, transform 0.2s ease;
-//   vertical-align: middle;
-//   font-size: 16px;
-// }
-// .collapsed-menu span {
-//   width: 0px;
-//   transition: width 0.2s ease;
-// }
-// .collapsed-menu i {
-//   transform: translateX(5px);
-//   transition: font-size 0.2s ease 0.2s, transform 0.2s ease 0.2s;
-//   vertical-align: middle;
-//   font-size: 22px;
-// }
 </style>

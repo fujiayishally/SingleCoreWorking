@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import findLast from 'lodash/findLast'
+import { hasAuthority, isLogin } from '@/utils/authority'
+import { Notice } from 'iview'
 Vue.use(Router)
 
 const router = new Router({
@@ -34,6 +37,9 @@ const router = new Router({
     },
     {
       path: '/',
+      meta: {
+        authority: ['user', 'admin'],
+      },
       component: () =>
         import(/* webpackChunkName: "layout" */ './layouts/BaseLayout'),
       children: [
@@ -134,6 +140,7 @@ const router = new Router({
               hideChildrenInMenu: true,
               meta: {
                 title: '数据统计',
+                authority: ['admin'],
               },
               component: { render: h => h('router-view') },
               children: [
@@ -161,22 +168,40 @@ const router = new Router({
     },
     {
       path: '/403',
+      name: '403',
       hideInMenu: true,
-      component: () =>
-        import(/* webpackChunkName: "layout" */ './views/403.vue'),
+      component: () => import(/* webpackChunkName: "403" */ './views/403.vue'),
     },
     {
       path: '*',
+      name: '404',
       hideInMenu: true,
-      component: () =>
-        import(/* webpackChunkName: "layout" */ './views/404.vue'),
+      component: () => import(/* webpackChunkName: "404" */ './views/404.vue'),
     },
   ],
 })
 
 router.beforeEach((to, from, next) => {
+  // 打开进度条
   if (to.path != from.path) {
     nprogress.start()
+  }
+
+  const record = findLast(to.matched, item => {
+    return item.meta && item.meta.authority
+  })
+
+  if (record && !hasAuthority(record.meta.authority)) {
+    if (!isLogin()) {
+      next({ path: '/user/login' })
+    } else {
+      Notice.error({
+        title: '权限有误',
+        desc: '抱歉，你没有访问权限，请联系管理员获取更多信息！',
+      })
+      next({ path: '/403' })
+    }
+    nprogress.done()
   }
   next()
 })
