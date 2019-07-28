@@ -1,5 +1,5 @@
 <template>
-  <div>404 Page Not Found!</div>
+  <div>没有权限</div>
 </template>
 
 <script>

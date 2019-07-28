@@ -1,5 +1,5 @@
 <template>
-  <div>404 Page Not Found!</div>
+  <div>statistics user</div>
 </template>
 
 <script>
