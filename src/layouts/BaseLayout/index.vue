@@ -18,7 +18,6 @@
           :type="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           @click="handleSiderMenuTrigger"
         />
-
         <HeaderVue />
       </Header>
       <Content class="layout-content">
@@ -28,7 +27,7 @@
         <FooterVue />
       </Footer>
     </Layout>
-    <SettingDrawerVue />
+    <SettingDrawerVue v-authorized="['admin']" />
   </Layout>
 </template>
 

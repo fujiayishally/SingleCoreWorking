@@ -16,8 +16,13 @@ import {
 import 'iview/dist/styles/iview.css'
 import '@/styles/_theme.scss'
 import './icons'
+import AuthorizedComponent from '@/components/Authorized'
+import AuthorizedDirective from '@/directives/authorized'
 
 Vue.config.productionTip = false
+
+Vue.component('Authorized', AuthorizedComponent)
+Vue.use(AuthorizedDirective)
 
 Vue.component('Layout', Layout)
 Vue.component('Sider', Sider)
